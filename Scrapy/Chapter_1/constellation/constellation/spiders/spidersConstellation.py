@@ -25,19 +25,16 @@ class constellationSpider(scrapy.Spider):
 
     def parse(self, response):
         item = ConstellationItem()
-        target = response.css(".TODAY_CONTENT")
-
-        dr = re.compile(r'<[^>]+>', re.S)
-        # dd = dr.sub('')
-
+        target = response.css(".TODAY_CONTENT")  # 取得我們要抓取資料的區塊
+        dr = re.compile(r'<[^>]+>', re.S)  # 正規表示法
         for tag in target:
-            item['name'] = tag.css("h3::text")[0].get()
-            item['OverallFortuneTitle'] = tag.css('span::text')[0].get()
-            item['LoveFortuneTitle'] = tag.css('span::text')[1].get()
-            item['CareerFortuneTitle'] = tag.css('span::text')[2].get()
-            item['WealthFortuneTitle'] = tag.css('span::text')[3].get()
-            item['OverallFortuneContent'] = tag.css('p::text')[1].get()
-            item['LoveFortuneContent'] = tag.css('p::text')[3].get()
+            item['name'] = tag.css("h3::text")[0].get()  # 針對要抓取的區塊內，在取得h3，::text代表說取得文字
+            item['OverallFortuneTitle'] = tag.css('span::text')[0].get()  # 針對要抓取的區塊內，在取得span的第0的元素，::text代表說取得文字
+            item['LoveFortuneTitle'] = tag.css('span::text')[1].get()  # 針對要抓取的區塊內，在取得span的第1的元素，::text代表說取得文字
+            item['CareerFortuneTitle'] = tag.css('span::text')[2].get()  # 針對要抓取的區塊內，在取得span的第2的元素，::text代表說取得文字
+            item['WealthFortuneTitle'] = tag.css('span::text')[3].get()  # 針對要抓取的區塊內，在取得span的第3的元素，::text代表說取得文字
+            item['OverallFortuneContent'] = tag.css('p::text')[1].get()  # 針對要抓取的區塊內，在取得p的第1個元素，::text代表說取得文字
+            item['LoveFortuneContent'] = tag.css('p::text')[3].get()  # 針對要抓取的區塊內，在取得p的第3個元素，::text代表說取得文字
 
             CareerFortuneContent = tag.css('p')[5].get()
             getCareerFortuneContent = dr.sub('', CareerFortuneContent)
@@ -45,6 +42,4 @@ class constellationSpider(scrapy.Spider):
             getWealthFortuneContent = dr.sub('', WealthFortuneContent)
             item['CareerFortuneContent'] = getCareerFortuneContent
             item['WealthFortuneContent'] = getWealthFortuneContent
-            # item['CareerFortuneContent'] = tag.css('p')[5].extract()
-            # item['WealthFortuneContent'] = tag.css('p')[7].get()
             yield item
