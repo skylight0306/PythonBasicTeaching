@@ -7,20 +7,36 @@ import sys
 from selenium import webdriver
 from urllib.request import urlretrieve
 import time
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
-driver = webdriver.Firefox(executable_path = os.getcwd() + '/geckodriver')
+
+
+# driver = webdriver.Firefox(executable_path = os.getcwd() + '/geckodriver')
 
 ConfirmedDict = {}
 ConfirmedKeyList = ['編號', '確診日', '年齡', '身份', '狀況']
 
 def Main():
+
+    quote_page = 'https://infogram.com/--1h8j4xgy7x1d6mv'
+    page = urlopen(quote_page).read()
+    bs = BeautifulSoup(page, 'html.parser')
+
+    # bs = BeautifulSoup(html)
+    table = bs.find(lambda tag: tag.name == 'table')
+    rows = bs.find_all(lambda tag: tag.name == '.igc-table-scrollable')
+    print(table)
+    print(rows)
+
+    # print(soup)
     # 主要執行區塊
 
-    driver.get('https://infogram.com/--1h8j4xgy7x1d6mv')  # 取得URL 開啟瀏覽器
+    # driver.get('https://infogram.com/--1h8j4xgy7x1d6mv')  # 取得URL 開啟瀏覽器
     # UrlBaseName = getUrlBaseName(buy_url=i)  # 取得URL的最後'/'後面的參數值 + 日期為資料夾名稱
-    time.sleep(3)  # 等待個5秒
-    moveBottom()
-    getDataList = getConfirmed()
+    # time.sleep(3)  # 等待個5秒
+    # moveBottom()
+    # getConfirmed(htmlParser = soup)
 
     # listToStr(get_list=getDataList)
 
@@ -28,7 +44,7 @@ def Main():
     # downloadImgDict(dirs_str = UrlBaseName, save_img_dict = getContentsPhoto())  # 將取得到的圖片儲存到相對應的資料夾底下
     # data_str = dataIntegration(getTitleName(), getContentName(), getPriceTotal(), getContentsText(), getStandardEquipment(), getProductSpecification(), str(i))  # 將所有取得到的資料放在一起
     # writeFile(dir_str = UrlBaseName, write_str = data_str)  # 最後將資料寫到對應的資料夾內，另名為note.txt
-    driver.quit()  # 關閉瀏覽器，收工搞定
+    # driver.quit()  # 關閉瀏覽器，收工搞定
 
 
 def dataIntegration(*args):
@@ -43,28 +59,28 @@ def dataIntegration(*args):
     return all_data_str
 
 
-def getConfirmed():
+def getConfirmed(htmlParser):
     getDataList = []
     EachConfirmedList = []
-    Confirmed = driver.find_elements_by_css_selector(".igc-table-scrollable tbody tr")
-    times = 0
-    for i in Confirmed:
-        times = times + 1
-        EachConfirmedList.append(i.text)
-        print(i.text)
-        listToStr = ''.join(EachConfirmedList)
-        strTolist = listToStr.split()
-        mergeEachListToDict = dict(zip(['編號', '確診日', '年齡', '身份', '狀況'], strTolist))
-        getEachDict = {EachConfirmedList[0]: mergeEachListToDict}
-        ConfirmedDict.update(getEachDict)
-        EachConfirmedList = []
-        # if (times % 5 == 0) and (times != 0):
-        #     mergeEachListToDict = dict(zip(['編號', '確診日', '年齡', '身份', '狀況'], ' '.join(EachConfirmedList)))
-        #     getEachDict = {EachConfirmedList[0]: mergeEachListToDict}
-        #     ConfirmedDict.update(getEachDict)
-        #     EachConfirmedList = []
 
-    print(ConfirmedDict)
+    x = htmlParser.find_all('.igc-table-scrollable tbody tr')
+    for i in x:
+        print(i.text)
+    # Confirmed = driver.find_elements_by_css_selector(".igc-table-scrollable tbody tr")
+    # times = 0
+    # for i in Confirmed:
+    #     times = times + 1
+    #     EachConfirmedList.append(i.text)
+    #     print(i.text)
+    #     listToStr = ''.join(EachConfirmedList)
+    #     strTolist = listToStr.split()
+    #     mergeEachListToDict = dict(zip(['編號', '確診日', '年齡', '身份', '狀況'], strTolist))
+    #     getEachDict = {EachConfirmedList[0]: mergeEachListToDict}
+    #     ConfirmedDict.update(getEachDict)
+    #     EachConfirmedList = []
+    #
+    #
+    # print(ConfirmedDict)
     # print(times)
 
 
