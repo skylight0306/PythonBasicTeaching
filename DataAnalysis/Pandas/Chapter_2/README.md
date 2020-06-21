@@ -1,5 +1,5 @@
-文章名稱：1個指令，抓取當天539開獎號碼！使用Python Pandas
+文章名稱：【Python Pandas 教學】撈取539開獎號碼，輕鬆搞定！
 
-文章連結：https://shareboxnow.com/python-pandas-539/
+文章連結：https://markteaching.com/python-pandas-539/
 
 程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/DataAnalysis/Pandas/Chapter_2
