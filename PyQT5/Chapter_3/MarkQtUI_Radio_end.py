@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.displayListWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.displayListWidget.setGeometry(QtCore.QRect(50, 161, 256, 151))
+        self.displayListWidget.setGeometry(QtCore.QRect(50, 161, 400, 151))
         self.displayListWidget.setObjectName("displayListWidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(49, 10, 261, 146))
